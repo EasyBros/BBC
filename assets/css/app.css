@@ -175,3 +175,5 @@ html.theme-dark .king-display img { filter:brightness(1.55) contrast(1.08) satur
 .grade-badge.grade-beginner { color:#c8f3d4; background:#1c3d2c; border-color:#5d9e71; font-weight:600; }
 
 .grade-image { display:inline-block; width:86px; height:40px; object-fit:contain; vertical-align:middle; }
+/* Member grade uses the same emoji labels as the grade selector. */
+.grade-emoji { display:inline-flex; align-items:center; gap:5px; padding:4px 9px; border:1px solid var(--border); border-radius:999px; color:var(--text); background:color-mix(in srgb,var(--primary) 10%,transparent); font-weight:700; white-space:nowrap; }
