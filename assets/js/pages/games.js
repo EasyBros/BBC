@@ -1,7 +1,7 @@
 import { callRpc, loadAll } from '../data.js';
 import { findDuplicates, gameSignature, parseGames } from '../parser.js';
 import { dateWithWeekday, escapeHtml, today } from '../util.js';
-import { gradeEmoji } from '../grade-ui.js';
+import { gradeEmoji } from '../grade-ui.js?v=78e4aef';
 
 const host=document.querySelector('#games-placeholder');const safe=escapeHtml;
 let data;let sessionId;let editingId=null;let batch=[];let existingSignatures=new Set();
@@ -42,4 +42,5 @@ async function saveBatch(){const seen=new Set();const games=batch.filter((game)=
 function showToast(message,type){window.showToast?.(message,type);}
 async function boot(){data=await loadAll({force:true});if(!data.sessions.some((row)=>row.date===today())){await callRpc('ensure_session',{p_date:today()});data=await loadAll({force:true});}build();}
 boot().catch((error)=>showToast(error.message||'경기 입력 화면을 불러오지 못했습니다.','danger'));
+
 
