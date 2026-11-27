@@ -34,13 +34,13 @@ function renderHighlights(data, stats) {
   if(!highlights){$('#today-highlights').innerHTML='<div class="card empty-state">오늘 경기가 없습니다 🏸</div>';return;}
   const bestPair=highlights.best_couples[0];
   const cards=[
-    ['🏆','BBC Point',highlights.bbc_points.slice(0,3).map((r)=>`${safe(r.member_name)} · ${r.bbc_point}P (승:${r.won}, 패:${r.lost})`).join('<br>')],
-    ['🥇','어깨 깡패',highlights.winners.map((r)=>`${safe(r.member_name)} · ${formatPercent(r.win_rate)} (${r.won}승)`).join('<br>')],
-    ['👫','Best Couple',bestPair?`${safe(bestPair.member1_name)} & ${safe(bestPair.member2_name)} · ${formatPercent(bestPair.adj_win_rate)} (${bestPair.won}승)`:'기록 없음'],
-    ['🧹','Magic Eraser',highlights.erasers.map((r)=>`${safe(r.member_name)} · ${r.total_games}경기 / ${r.lost_games}패`).join('<br>')],
-    ['💪','Strong Guy',highlights.strong_guys.map((r)=>`${safe(r.member_name)} · ${r.total_games}경기`).join('<br>')],
+    ['🏆','BBC Point','승 3점 · 패 1점',highlights.bbc_points.slice(0,3).map((r)=>`${safe(r.member_name)} · ${r.bbc_point}P (승:${r.won}, 패:${r.lost})`).join('<br>')],
+    ['🥇','어깨 깡패','오늘 동적 보정승률 1위',highlights.winners.map((r)=>`${safe(r.member_name)} · ${formatPercent(r.adj_win_rate)} (${r.won}승)`).join('<br>')],
+    ['👫','Best Couple','복식 조합별 보정승률 1위',bestPair?`${safe(bestPair.member1_name)} & ${safe(bestPair.member2_name)} · ${formatPercent(bestPair.adj_win_rate)} (${bestPair.won}승)`:'기록 없음'],
+    ['🧹','Magic Eraser','오늘 동적 보정승률이 가장 낮은 선수',highlights.erasers.map((r)=>`${safe(r.member_name)} · ${r.total_games}경기 / ${r.lost_games}패`).join('<br>')],
+    ['💪','Strong Guy','오늘 가장 많이 출전한 선수',highlights.strong_guys.map((r)=>`${safe(r.member_name)} · ${r.total_games}경기`).join('<br>')],
   ];
-  $('#today-highlights').innerHTML=cards.map(([icon,title,body])=>`<article class="highlight-card"><div>${icon}</div><h3>${title}</h3><p>${body||'기록 없음'}</p></article>`).join('');
+  $('#today-highlights').innerHTML=cards.map(([icon,title,help,body])=>`<article class="highlight-card"><div>${icon}</div><h3>${title}</h3><small class="highlight-help">${help}</small><p>${body||'기록 없음'}</p></article>`).join('');
 }
 
 function renderRankings(data, stats) {
@@ -59,12 +59,12 @@ function renderRankings(data, stats) {
   const eraserRows=rowset(stats.top_erasers,(p)=>`<span>${safe(p.member_name)} <small>${p.total_games}경기</small></span><strong>${p.eraser_count}회</strong>`);
   const recentRows=stats.recent_sessions.map((s)=>`<a class="rank-row recent-row" href="games.html?session=${encodeURIComponent(s.id)}"><span>${safe(s.date)}</span><small>${safe(s.location||'장소 미정')} · 참석 ${s.attendee_count}명 · 경기 ${s.game_count}개</small><strong>상세 →</strong></a>`).join('');
   $('#ranking-cards').innerHTML=[
-    card('BBC 포인트 TOP 5','⭐','stats.html?tab=bbc',pointRows,'승×3 + 패×1'),
-    card('개인 승률 TOP 5','🏆','stats.html?tab=winrate',winRows,'보정승률 기준 · 15경기 이상'),
+    card('BBC 포인트 TOP 5','⭐','stats.html?tab=bbc',pointRows,'승 3점 · 패 1점'),
+    card('개인 승률 TOP 5','🏆','stats.html?tab=winrate',winRows,'보정승률 기준 · 15경기 이상부터 순위'),
     card('복식 조 승률 TOP 5','👥','stats.html?tab=pairs',pairRows,'보정승률 기준'),
     card('출석률 TOP 5','📅','stats.html?tab=attendance',attendanceRows,'경기 참가일 ÷ 평일 수'),
-    card('어깨 깡패 TOP 5','🥇','stats.html?tab=winner',winnerRows,'일자별 등극 횟수'),
-    card('Magic Eraser TOP 5','🧹','stats.html?tab=eraser',eraserRows,'일자별 등극 횟수'),
+    card('어깨 깡패 TOP 5','🥇','stats.html?tab=winner',winnerRows,'하루 최고 보정승률에 오른 횟수'),
+    card('Magic Eraser TOP 5','🧹','stats.html?tab=eraser',eraserRows,'하루 최고 보정승률에 오른 횟수'),
     card('최근 모임','🏸','games.html',recentRows,'최근 기록'),
   ].join('');
 }
