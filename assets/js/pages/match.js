@@ -1,6 +1,6 @@
 import { callRpc, loadAll } from '../data.js';
 import { attendeeEmoji, makePairings } from '../pairing.js';
-import { gradeEmoji } from '../grade-ui.js';
+import { gradeEmoji } from '../grade-ui.js?v=922e522';
 import { copyToClipboard, dateWithWeekday, escapeHtml, today } from '../util.js';
 
 const root=document.querySelector('#match-placeholder');const safe=escapeHtml;
@@ -79,4 +79,5 @@ function toast(message,type){window.showToast?.(message,type);}
 
 async function boot(){data=await loadAll({force:true});await loadDate();draw();}
 boot().catch((error)=>toast(error.message||'출석부를 불러오지 못했습니다.','danger'));
+
 
