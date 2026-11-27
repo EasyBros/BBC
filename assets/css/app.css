@@ -24,7 +24,7 @@ html.theme-light .nav-controls select { color:var(--text); background:var(--surf
 html.theme-light .nav-action,html.theme-light .nav-toggle { color:var(--text); border-color:var(--border); }
 html.theme-light .btn-close { filter:none; }
 body.season-winter { background:transparent; }
-body.season-winter::before { position:fixed; inset:0; z-index:-2; content:""; pointer-events:none; background:linear-gradient(180deg,#03050c 0%,#0d1430 42%,#1b2749 72%,#2c3c6b 100%),url('../img/winter-wall.svg') center/cover no-repeat; opacity:.92; animation:winter-pan 70s ease-in-out infinite alternate; }
+body.season-winter::before { position:fixed; inset:0; z-index:-2; content:""; pointer-events:none; background:linear-gradient(180deg,#03050c 0%,#0d1430 42%,#1b2749 72%,#2c3c6b 100%),url('../img/winter-wall.svg') center/cover no-repeat; opacity:1; animation:winter-pan 70s ease-in-out infinite alternate; }
 body.season-winter::after { position:fixed; inset:0; z-index:-1; content:""; pointer-events:none; background:radial-gradient(circle at 82% 11%,#fff5cc 0 3px,transparent 48px),radial-gradient(circle at 18% 20%,#ffffffbb 0 1px,transparent 2px),radial-gradient(circle at 62% 34%,#ffffffaa 0 1px,transparent 2px),radial-gradient(circle at 39% 65%,#ffffffaa 0 1px,transparent 2px),radial-gradient(circle at 91% 70%,#ffffffbb 0 1px,transparent 2px); }
 @keyframes winter-pan { from { background-position:center,45% center; } to { background-position:center,60% center; } }
 #winter-scene { position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
@@ -151,3 +151,4 @@ html.theme-dark .btn-outline-secondary { --bs-btn-color:var(--text); --bs-btn-bo
 .teaser-track { color:var(--text); text-shadow:0 1px 3px #000; }
 html.theme-dark { --bs-body-color:var(--text); --bs-secondary-color:#b1bac4; --bs-tertiary-color:#8b949e; --bs-emphasis-color:var(--text); --bs-border-color:var(--border); }
 .highlight-help { display:block; min-height:2.5em; margin:0 0 7px; color:var(--muted); font-size:11px; line-height:1.45; }
+html.theme-dark .king-display img { filter:brightness(1.2) contrast(1.12) saturate(1.12); animation:none; transform:none; }
