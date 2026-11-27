@@ -26,7 +26,7 @@ function renderSeasonBanner(data) {
   const emoji={spring:'🌸',summer:'☀️',autumn:'🍂',winter:'❄️'};
   const sessionCount=season?data.sessions.filter((row)=>row.date>=season.start_date&&row.date<=season.end_date).length:0;
   const message=teaserEnabled?`<div class="teaser-mask"><div class="teaser-track">${Array.from({length:3},()=>`<span>${safe(teaser)}</span>`).join('')}</div></div>`:'';
-  document.querySelector('#season-banner').innerHTML=`<div><span class="season-icon">🏸</span><div><strong>${season?`${emoji[season.kind]||'🏸'} ${safe(season.name)}`:'BBC 리그'}</strong><p>${season?`${safe(season.start_date)} ~ ${safe(season.end_date)} · ${sessionCount}모임`:'출석과 경기를 기록하고 시즌 흐름을 확인하세요.'}</p></div></div>${message||'<p class="season-teaser">Bulgwang Badminton Club</p>'}`;
+  document.querySelector('#season-banner').innerHTML=`<div class="season-banner-info"><span class="season-icon">🏸</span><div><strong>${season?`${emoji[season.kind]||'🏸'} ${safe(season.name)}`:'BBC 리그'}</strong><p>${season?`${safe(season.start_date)} ~ ${safe(season.end_date)} · ${sessionCount}모임`:'출석과 경기를 기록하고 시즌 흐름을 확인하세요.'}</p></div></div><div class="season-marquee">${message||'<p class="season-teaser">Bulgwang Badminton Club</p>'}</div><img class="season-banner-art" src="assets/img/dashboard-badminton.svg" alt="" aria-hidden="true">`;
 }
 
 function renderHighlights(data, stats) {

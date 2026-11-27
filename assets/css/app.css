@@ -152,3 +152,20 @@ html.theme-dark .btn-outline-secondary { --bs-btn-color:var(--text); --bs-btn-bo
 html.theme-dark { --bs-body-color:var(--text); --bs-secondary-color:#b1bac4; --bs-tertiary-color:#8b949e; --bs-emphasis-color:var(--text); --bs-border-color:var(--border); }
 .highlight-help { display:block; min-height:2.5em; margin:0 0 7px; color:var(--muted); font-size:11px; line-height:1.45; }
 html.theme-dark .king-display img { filter:brightness(1.55) contrast(1.08) saturate(1.25); animation:none; transform:none; }
+
+/* Make dashboard art and summary icons read clearly against dark cards. */
+.dashboard-banner { display:grid; grid-template-columns:minmax(260px,1.1fr) minmax(220px,1fr) 180px; align-items:center; min-height:145px; padding:20px 22px; overflow:hidden; background:linear-gradient(115deg,#0f4c5c 0%,#17364f 50%,#2b3158 100%); }
+.dashboard-banner .season-banner-info { position:relative; z-index:1; display:flex; align-items:center; gap:16px; }
+.dashboard-banner .season-icon { display:grid; flex:0 0 58px; place-items:center; width:58px; height:58px; border:1px solid #ffffffcc; border-radius:18px; color:#10273a; background:linear-gradient(135deg,#ffe16b,#ff9b42); box-shadow:0 0 24px #ffc85788; font-size:30px; }
+.dashboard-banner p { color:#f0f8ff; }
+.season-marquee { position:relative; z-index:1; min-width:0; overflow:hidden; }
+.season-banner-art { position:relative; z-index:1; display:block; width:180px; height:100px; object-fit:cover; border:1px solid #ffffff99; border-radius:18px; box-shadow:0 8px 24px #0005; }
+.season-teaser { margin:0; color:#fff; font-weight:800; }
+.summary-grid .summary-icon { display:grid; place-items:center; width:54px; height:54px; opacity:1; border:1px solid #ffffff55; border-radius:16px; background:linear-gradient(145deg,#2dd4bf99,#3b82f677); box-shadow:0 5px 18px #0004; font-size:32px; filter:saturate(1.2); }
+.summary-grid>.summary-card:nth-child(1) .summary-icon { background:linear-gradient(145deg,#16a36acc,#24d18b88); }
+.summary-grid>.summary-card:nth-child(2) .summary-icon { background:linear-gradient(145deg,#248dd1cc,#43c8df99); }
+.summary-grid>.summary-card:nth-child(3) .summary-icon { background:linear-gradient(145deg,#8953d5cc,#b779f399); }
+.summary-grid>.summary-card:nth-child(4) .summary-icon { background:linear-gradient(145deg,#d28a24cc,#f0c34faa); }
+@media(max-width:850px) { .dashboard-banner { grid-template-columns:minmax(0,1fr) 130px; }.season-banner-art { grid-column:2; grid-row:1 / span 2; width:130px; height:92px; } }
+@media(max-width:520px) { .dashboard-banner { grid-template-columns:minmax(0,1fr) 82px; align-items:flex-start; padding:16px; }.dashboard-banner .season-banner-info { grid-column:1 / -1; }.dashboard-banner .season-marquee { grid-column:1; }.dashboard-banner .season-banner-art { grid-column:2; grid-row:2; width:82px; height:66px; align-self:end; }.dashboard-banner .season-teaser { margin-left:0; } }
+.season-marquee .teaser-mask { max-width:100%; }
