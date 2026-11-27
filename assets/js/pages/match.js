@@ -1,5 +1,6 @@
 import { callRpc, loadAll } from '../data.js';
 import { attendeeEmoji, makePairings } from '../pairing.js';
+import { gradeEmoji } from '../grade-ui.js';
 import { copyToClipboard, dateWithWeekday, escapeHtml, today } from '../util.js';
 
 const root=document.querySelector('#match-placeholder');const safe=escapeHtml;
@@ -35,7 +36,7 @@ async function loadDate(){
 function renderAttendance(){
  const readonly=currentDate<today();
  const root=document.querySelector('#attendance-list');
- root.innerHTML=activeMembers().map((member)=>{const on=selected.has(member.id);return `<button type="button" class="attendance-card ${on?'is-selected':''}" data-member="${safe(member.id)}" ${readonly?'disabled':''}><span class="attendance-name">${safe(display(member))}</span>${on?'<span class="attendance-check">🏸 출석 ✓</span>':''}</button>`;}).join('')||'<div class="empty-state">등록된 멤버가 없습니다.</div>';
+ root.innerHTML=activeMembers().map((member)=>{const on=selected.has(member.id);return `<button type="button" class="attendance-card ${on?'is-selected':''}" data-member="${safe(member.id)}" ${readonly?'disabled':''}><span class="attendance-name">${gradeEmoji(member.grade)} ${safe(display(member))}</span>${on?'<span class="attendance-check">🏸 출석 ✓</span>':''}</button>`;}).join('')||'<div class="empty-state">등록된 멤버가 없습니다.</div>';
  root.querySelectorAll('[data-member]').forEach((button)=>button.addEventListener('click',()=>{const id=Number(button.dataset.member);if(selected.has(id)){selected.delete(id);attendanceOrder=attendanceOrder.filter((item)=>item!==id);}else{selected.add(id);attendanceOrder.push(id);}renderAttendance();renderAttendees();scheduleSave();}));
  document.querySelector('#attendance-count').textContent=`${selected.size}명 출석`;
 }
@@ -44,7 +45,7 @@ function renderAttendees(){
  const ordered=attendanceOrder.filter((id)=>selected.has(id)).concat([...selected].filter((id)=>!attendanceOrder.includes(id)));
  const names=ordered.map((id)=>activeMembers().find((member)=>member.id===id)).filter(Boolean);
  document.querySelector('#attendee-heading').textContent=`오늘 출석자 (${names.length}명)`;
- document.querySelector('#attendee-tags').innerHTML=names.map((member)=>`<span class="attendee-tag">${attendeeEmoji(member.id)} ${safe(display(member))}</span>`).join('')||'<span class="text-muted">출석자가 없습니다.</span>';
+ document.querySelector('#attendee-tags').innerHTML=names.map((member)=>`<span class="attendee-tag">${attendeeEmoji(member.id)} ${gradeEmoji(member.grade)} ${safe(display(member))}</span>`).join('')||'<span class="text-muted">출석자가 없습니다.</span>';
 }
 
 function scheduleSave(){
@@ -58,7 +59,7 @@ function attendanceCopy(){
  const names=ordered.map((id)=>activeMembers().find((member)=>member.id===id)).filter(Boolean);
  const finalTime=attendanceOrder.length?new Date(data.attendance.filter((row)=>row.session_id===sessionId).reduce((latest,row)=>row.created_at>latest?row.created_at:latest,'')||Date.now()):new Date();
  const time=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(finalTime);
- return `🏸오늘 출석자 (${names.length}명)\n━━━━━━━━━━━━━━━━━━\n${names.map((member)=>`${attendeeEmoji(member.id)} ${display(member)}`).join('\n')}\n━━━━━━━━━━━━━━━━━━\n⏰ 최종 입력 시간 : ${time}\n🔗 출석부 링크: ${location.origin}${location.pathname.replace(/[^/]*$/,'')}match.html`;
+ return `🏸오늘 출석자 (${names.length}명)\n━━━━━━━━━━━━━━━━━━\n${names.map((member)=>`${attendeeEmoji(member.id)} ${gradeEmoji(member.grade)} ${display(member)}`).join('\n')}\n━━━━━━━━━━━━━━━━━━\n⏰ 최종 입력 시간 : ${time}\n🔗 출석부 링크: ${location.origin}${location.pathname.replace(/[^/]*$/,'')}match.html`;
 }
 async function copyAttendance(){try{await copyToClipboard(attendanceCopy());toast('출석 명단을 복사했습니다.','success');}catch(error){toast(error.message,'danger');}}
 
@@ -78,3 +79,4 @@ function toast(message,type){window.showToast?.(message,type);}
 
 async function boot(){data=await loadAll({force:true});await loadDate();draw();}
 boot().catch((error)=>toast(error.message||'출석부를 불러오지 못했습니다.','danger'));
+
