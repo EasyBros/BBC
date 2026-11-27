@@ -7,6 +7,15 @@ const modal=bootstrap.Modal.getOrCreateInstance(document.querySelector('#member-
 let members=[];
 let admin=false;
 const safe=escapeHtml;
+const gradeMeta={
+ 'S조':{className:'grade-s',mark:'S',icon:'👑'},
+ 'A조':{className:'grade-a',mark:'A',icon:'💎'},
+ 'B조':{className:'grade-b',mark:'B',icon:'🥇'},
+ 'C조':{className:'grade-c',mark:'C',icon:'🥈'},
+ 'D조':{className:'grade-d',mark:'D',icon:'🥉'},
+ '초심':{className:'grade-beginner',mark:'초',icon:'🌱'},
+};
+function gradeBadge(value){const grade=gradeMeta[value]||gradeMeta['초심'];return `<span class="grade-badge ${grade.className}"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="currentColor" fill-opacity=".16"/><text x="16" y="21" text-anchor="middle" fill="currentColor">${grade.mark}</text></svg><strong>${safe(value||'초심')}</strong></span>`;}
 
 function visibleMembers() {
   const query=document.querySelector('#member-search').value.trim().toLocaleLowerCase('ko');
@@ -18,7 +27,7 @@ function draw() {
   document.querySelector('#member-count').textContent=`멤버 ${members.filter((member)=>member.is_active!==false).length}명`;
   document.querySelector('#member-rows').innerHTML=rows.length?rows.map((member)=>`<tr>
     <td><strong>${safe(member.name)}</strong>${member.is_admin?' 👑':''}${member.is_guest?' <span class="badge-muted">게스트</span>':''}</td>
-    <td>${safe(member.nickname||'—')}</td><td><span class="badge-league">${safe(member.grade||'초심')}</span></td>
+    <td>${safe(member.nickname||'—')}</td><td>${gradeBadge(member.grade||'초심')}</td>
     <td>${safe(dateWithWeekday(member.joined_at))}</td><td><div class="member-actions">
       <button class="btn btn-sm btn-outline-secondary" data-edit="${safe(member.id)}" type="button">수정</button>
       ${admin?`<button class="btn btn-sm btn-outline-danger" data-deactivate="${safe(member.id)}" type="button">삭제</button>`:''}

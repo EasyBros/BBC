@@ -169,3 +169,15 @@ html.theme-dark .king-display img { filter:brightness(1.55) contrast(1.08) satur
 @media(max-width:850px) { .dashboard-banner { grid-template-columns:minmax(0,1fr) 130px; }.season-banner-art { grid-column:2; grid-row:1 / span 2; width:130px; height:92px; } }
 @media(max-width:520px) { .dashboard-banner { grid-template-columns:minmax(0,1fr) 82px; align-items:flex-start; padding:16px; }.dashboard-banner .season-banner-info { grid-column:1 / -1; }.dashboard-banner .season-marquee { grid-column:1; }.dashboard-banner .season-banner-art { grid-column:2; grid-row:2; width:82px; height:66px; align-self:end; }.dashboard-banner .season-teaser { margin-left:0; } }
 .season-marquee .teaser-mask { max-width:100%; }
+
+/* Skill grade medals: S is the most prominent, then A, B, C, D and beginner. */
+.grade-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px 4px 5px; border:1px solid transparent; border-radius:999px; font-size:12px; letter-spacing:.01em; white-space:nowrap; }
+.grade-badge svg { width:27px; height:27px; flex:0 0 27px; }
+.grade-badge svg text { font:800 14px system-ui,sans-serif; }
+.grade-badge.grade-s { color:#ffe7a0; background:linear-gradient(110deg,#664800,#3d2c0e); border-color:#ffda72; box-shadow:0 0 18px #fbbf2477, inset 0 0 8px #ffe9a344; font-weight:900; }
+.grade-badge.grade-s svg { filter:drop-shadow(0 0 5px #ffd65a); }
+.grade-badge.grade-a { color:#e2c8ff; background:#382253; border-color:#a977e8; box-shadow:0 0 10px #a977e844; font-weight:800; }
+.grade-badge.grade-b { color:#c2e5ff; background:#173c58; border-color:#4c9fd1; font-weight:800; }
+.grade-badge.grade-c { color:#b9f4e9; background:#17463f; border-color:#45b6a1; font-weight:700; }
+.grade-badge.grade-d { color:#ffd1b3; background:#4b3023; border-color:#bb7851; font-weight:700; }
+.grade-badge.grade-beginner { color:#c8f3d4; background:#1c3d2c; border-color:#5d9e71; font-weight:600; }
