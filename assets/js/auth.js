@@ -95,8 +95,10 @@ export function mountLoginOverlay({ onLogin } = {}) {
       await signInClub(input.value);
       wrap.remove();
       await onLogin?.();
-    } catch {
-      errorBox.textContent = '비밀번호가 올바르지 않습니다.';
+    } catch (error) {
+      const debugAuth = new URLSearchParams(window.location.search).get('authDebug') === '1';
+      const detail = error?.code ? `${error.code}: ${error.message}` : (error?.message || '알 수 없는 인증 오류');
+      errorBox.textContent = debugAuth ? `로그인 오류: ${detail}` : '비밀번호가 올바르지 않습니다.';
       errorBox.hidden = false;
       input.select();
     } finally {
