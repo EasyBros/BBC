@@ -9,12 +9,12 @@ Pages 주소: `https://easybros.github.io/BBC/`
 
 1. Supabase 프로젝트를 만들고 SQL Editor에서 `supabase/schema.sql`을 실행합니다.
 2. 필요하면 데모 데이터 `supabase/seed.sql`을 실행합니다. 실사용 DB에서는 실행하지 않아도 됩니다.
-3. Authentication → Users에서 `club@bbc.local`, `admin@bbc.local` 사용자를 만들고 Auto Confirm을 켭니다. 실제 비밀번호는 안전하게 보관하고 공유 범위를 제한하세요.
+3. Authentication → Users에서 `bbc@club.com`, `bbcadmin@club.com` 사용자를 만들고 Auto Confirm을 켭니다. 실제 비밀번호는 안전하게 보관하고 공유 범위를 제한하세요.
 4. 아래 SQL로 관리자 사용자를 지정합니다.
 
 ```sql
 insert into public.app_admins(user_id)
-select id from auth.users where email = 'admin@bbc.local'
+select id from auth.users where email = 'bbcadmin@club.com'
 on conflict do nothing;
 ```
 

@@ -3,6 +3,6 @@
 export const SUPABASE_URL = "https://iesebcxojtmuvonuofjk.supabase.co/rest/v1/";
 export const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_rdiLzAEVr50rCakHt9GwlQ_YOwqLItC";
-export const CLUB_EMAIL = "club@bbc.local";
-export const ADMIN_EMAIL = "admin@bbc.local";
+export const CLUB_EMAIL = "bbc@club.com";
+export const ADMIN_EMAIL = "bbcadmin@club.com";
 export const APP_TITLE = "BBC 불광 배드민턴 클럽";

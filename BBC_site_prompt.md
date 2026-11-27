@@ -29,8 +29,8 @@
 | 1 | GitHub 저장소 `EasyBros/BBC` 사용 | 무료 계정은 Public 저장소만 Pages 가능합니다. 코드는 공개되지만 데이터는 Supabase에 있고 로그인으로 보호됩니다. |
 | 2 | supabase.com에서 프로젝트 만들기 | Region은 Northeast Asia (Seoul). DB 비밀번호는 따로 보관하세요. |
 | 3 | SQL Editor에서 `supabase/schema.sql` 실행 → (선택) `supabase/seed.sql` | seed는 가짜 데모 데이터입니다. |
-| 4 | Authentication → Users → Add user 2개 (Auto Confirm 체크) | `club@bbc.local` (동호회 공용 비밀번호), `admin@bbc.local` (관리자 비밀번호). 실제 메일 주소가 아니어도 됩니다. |
-| 5 | SQL Editor에서 `insert into app_admins(user_id) select id from auth.users where email='admin@bbc.local';` | 관리자 지정 |
+| 4 | Authentication → Users → Add user 2개 (Auto Confirm 체크) | `bbc@club.com` (동호회 공용 비밀번호), `bbcadmin@club.com` (관리자 비밀번호). |
+| 5 | SQL Editor에서 `insert into app_admins(user_id) select id from auth.users where email='bbcadmin@club.com';` | 관리자 지정 |
 | 6 | Authentication → Sign In / Providers → **Allow new user sign-ups 끄기** | 꼭 하세요. 켜져 있으면 아무나 가입해서 데이터를 읽고 쓸 수 있습니다. |
 | 7 | Project Settings → API에서 Project URL과 **Publishable key(구 anon key)**를 `assets/js/config.js`에 입력 | 이 키는 공개돼도 되는 키입니다. service_role / secret key는 절대 넣지 마세요. |
 | 8 | GitHub 저장소 → Settings → Pages → Source: Deploy from a branch, main / (root) | 1~2분 후 `https://easybros.github.io/BBC/` 로 접속 |
