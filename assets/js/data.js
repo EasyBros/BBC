@@ -75,7 +75,7 @@ export function subscribeStatsChanged(callback, { pollMs = 5000 } = {}) {
   };
 }
 
-export function filterBy({ league = 'all', seasonId = 'all' } = {}, data = cache) {
+export function filterBy({ grade = 'all', seasonId = 'all' } = {}, data = cache) {
   if (!data) throw new Error('loadAll()을 먼저 호출하세요.');
   const activeMembers = data.members.filter((member) => member.is_active !== false);
   const season = seasonId === 'all' || !seasonId ? null : data.seasons.find((row) => String(row.id) === String(seasonId));
@@ -83,8 +83,8 @@ export function filterBy({ league = 'all', seasonId = 'all' } = {}, data = cache
   const sessionIds = new Set(sessions.map((row) => row.id));
   let games = data.v_game_players.filter((row) => sessionIds.has(row.session_id));
   let members = activeMembers;
-  if (league !== 'all' && league !== '' && league != null) {
-    members = activeMembers.filter((row) => Number(row.league) === Number(league));
+  if (grade !== 'all' && grade !== '' && grade != null) {
+    members = activeMembers.filter((row) => row.grade === grade);
     const eligibleIds = new Set(members.map((row) => row.id));
     const byGame = new Map();
     for (const row of games) {

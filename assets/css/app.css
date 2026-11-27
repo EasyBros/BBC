@@ -143,3 +143,10 @@ button,.btn { min-height:44px; border-radius:10px; }
 @media(max-width:850px) { .season-form { grid-template-columns:repeat(2,minmax(0,1fr)); }.season-form button { grid-column:span 2; } }
 @media(max-width:1399px) { #king-zone { display:none; } body.season-winter #app-content { width:min(100% - 28px,1694px); } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } }
+
+/* Dark theme contrast safeguards for Bootstrap utilities and season banner text. */
+html.theme-dark .text-muted,html.theme-dark .text-secondary,html.theme-dark .text-body-secondary,html.theme-dark .form-text { color:#b1bac4 !important; }
+html.theme-dark .text-dark,html.theme-dark .text-body { color:var(--text) !important; }
+html.theme-dark .btn-outline-secondary { --bs-btn-color:var(--text); --bs-btn-border-color:var(--border); --bs-btn-hover-color:var(--text); --bs-btn-hover-bg:var(--surface-hover); --bs-btn-hover-border-color:var(--muted); --bs-btn-active-color:var(--text); }
+.teaser-track { color:var(--text); text-shadow:0 1px 3px #000; }
+html.theme-dark { --bs-body-color:var(--text); --bs-secondary-color:#b1bac4; --bs-tertiary-color:#8b949e; --bs-emphasis-color:var(--text); --bs-border-color:var(--border); }

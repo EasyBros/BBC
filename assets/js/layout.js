@@ -29,7 +29,7 @@ function renderShell() {
   document.title=`${APP_TITLE} - ${document.body.dataset.pageTitle||'BBC'}`;
   if(!document.querySelector('.app-nav')){
     const header=document.createElement('header');header.className='app-nav';
-    header.innerHTML='<div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">🏸</span><span>BBC</span></a><button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false"><i class="bi bi-list"></i></button><nav class="nav-links" aria-label="주 메뉴"></nav><div class="nav-controls"><span class="admin-chip" hidden>👑 관리자 모드</span><select class="league-select" aria-label="리그 선택"><option value="all">전체 리그</option><option value="1">🥇 1부</option><option value="2">🥉 2부</option></select><select class="season-select" aria-label="시즌 선택"><option value="all">전체(역대)</option></select><button class="nav-action theme-toggle" type="button" aria-label="테마 변경"><i class="bi bi-sun-fill"></i></button><button class="nav-action signout" type="button" aria-label="로그아웃"><i class="bi bi-box-arrow-right"></i></button></div></div>';
+    header.innerHTML='<div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">🏸</span><span>BBC</span></a><button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false"><i class="bi bi-list"></i></button><nav class="nav-links" aria-label="주 메뉴"></nav><div class="nav-controls"><span class="admin-chip" hidden>👑 관리자 모드</span><select class="grade-select" aria-label="급수 선택"><option value="all">전체 급수</option><option value="S조">S조 · 최상급</option><option value="A조">A조</option><option value="B조">B조</option><option value="C조">C조</option><option value="D조">D조</option><option value="초심">초심</option></select><select class="season-select" aria-label="시즌 선택"><option value="all">전체(역대)</option></select><button class="nav-action theme-toggle" type="button" aria-label="테마 변경"><i class="bi bi-sun-fill"></i></button><button class="nav-action signout" type="button" aria-label="로그아웃"><i class="bi bi-box-arrow-right"></i></button></div></div>';
     document.body.prepend(header);
   }
   if(!document.querySelector('.app-footer')){const footer=document.createElement('footer');footer.className='app-footer';footer.textContent='BBC · Bulgwang Badminton Club';document.body.append(footer);}
@@ -50,9 +50,10 @@ async function fillSelectors({admin=false}={}) {
   nav.innerHTML=links.filter(([, , ,href])=>href!=='admin.html'||admin).map(([key,icon,label,href])=>`<a class="nav-link ${page===key?'active':''}" href="${href}"${page===key?' aria-current="page"':''}><i class="bi bi-${icon}"></i><span>${label}</span></a>`).join('');
   const data=await loadAll();
   lastLayoutData=data;
-  const leagueSelect=document.querySelector('.league-select');
-  const storedLeague=localStorage.getItem('currentLeague')||'all';leagueSelect.value=storedLeague;
-  leagueSelect.onchange=()=>{localStorage.setItem('currentLeague',leagueSelect.value);window.dispatchEvent(new CustomEvent('leagueChanged',{detail:{league:leagueSelect.value}}));};
+  const gradeSelect=document.querySelector('.grade-select');
+  localStorage.removeItem('currentLeague');let storedGrade=localStorage.getItem('currentGrade')||'all';if(![...gradeSelect.options].some((option)=>option.value===storedGrade))storedGrade='all';gradeSelect.value=storedGrade;
+  localStorage.setItem('currentGrade',storedGrade);
+  gradeSelect.onchange=()=>{localStorage.setItem('currentGrade',gradeSelect.value);window.dispatchEvent(new CustomEvent('gradeChanged',{detail:{grade:gradeSelect.value}}));};
   const seasons=[...data.seasons].sort((a,b)=>b.start_date.localeCompare(a.start_date));
   const seasonSelect=document.querySelector('.season-select');
   const todayText=today();
@@ -71,7 +72,7 @@ function updateKingZone(data,season) {
   clearInterval(billboardTimer);
   document.querySelector('#king-zone')?.remove();
   if(!season||season.kind!=='winter'||!matchMedia('(min-width: 1400px)').matches){document.querySelector('#winter-scene')?.remove();delete window.kingBillboard;return;}
-  const filtered=filterBy({league:localStorage.getItem('currentLeague')||'all',seasonId:season.id},data);
+  const filtered=filterBy({grade:localStorage.getItem('currentGrade')||'all',seasonId:season.id},data);
   const todayHighlights=dashboardStats(filtered).today_highlights;
   const point=todayHighlights?.bbc_points?.[0];
   const seasons=data.seasons||[];
@@ -99,9 +100,9 @@ function bindNav() {
 
 async function showLatestPopup() {
   const dismissedKeyPrefix='popup_dismissed_';
-  const league=localStorage.getItem('currentLeague')||'all';
+  const grade=localStorage.getItem('currentGrade')||'all';
   const notices=await fetchAll('notices',{orderBy:'created_at',ascending:false});
-  const notice=notices.find((row)=>row.is_popup&&(row.league==null||league==='all'||String(row.league)===String(league))&&localStorage.getItem(`${dismissedKeyPrefix}${row.id}`)!==today());
+  const notice=notices.find((row)=>row.is_popup&&(row.grade==null||grade==='all'||row.grade===grade)&&localStorage.getItem(`${dismissedKeyPrefix}${row.id}`)!==today());
   if(!notice)return;
   const backdrop=document.createElement('div');backdrop.className='auth-modal-backdrop notice-popup-backdrop';
   const sanitized=window.DOMPurify?window.DOMPurify.sanitize(notice.content):escapeHtml(notice.content).replace(/\n/g,'<br>');

@@ -18,7 +18,7 @@ function draw() {
   document.querySelector('#member-count').textContent=`멤버 ${members.filter((member)=>member.is_active!==false).length}명`;
   document.querySelector('#member-rows').innerHTML=rows.length?rows.map((member)=>`<tr>
     <td><strong>${safe(member.name)}</strong>${member.is_admin?' 👑':''}${member.is_guest?' <span class="badge-muted">게스트</span>':''}</td>
-    <td>${safe(member.nickname||'—')}</td><td><span class="badge-league">${Number(member.league)===2?'🥉 2부 (깍뚜기)':'🥇 1부 (고인물)'}</span></td>
+    <td>${safe(member.nickname||'—')}</td><td><span class="badge-league">${safe(member.grade||'초심')}</span></td>
     <td>${safe(dateWithWeekday(member.joined_at))}</td><td><div class="member-actions">
       <button class="btn btn-sm btn-outline-secondary" data-edit="${safe(member.id)}" type="button">수정</button>
       ${admin?`<button class="btn btn-sm btn-outline-danger" data-deactivate="${safe(member.id)}" type="button">삭제</button>`:''}
@@ -39,7 +39,7 @@ function openAdd() {
   form.reset();
   form.elements.id.value='';
   form.elements.joined_at.value=today();
-  form.elements.league.value='1';
+  form.elements.grade.value='초심';
   document.querySelector('#member-modal-title').textContent='멤버 추가';
   document.querySelector('#member-submit').textContent='추가';
   document.querySelector('#member-admin-option').hidden=true;
@@ -52,7 +52,7 @@ function openEdit(id) {
   form.elements.id.value=member.id;
   form.elements.name.value=member.name;
   form.elements.nickname.value=member.nickname||'';
-  form.elements.league.value=String(member.league);
+  form.elements.grade.value=member.grade||'초심';
   form.elements.joined_at.value=member.joined_at||today();
   form.elements.is_admin.checked=Boolean(member.is_admin);
   form.elements.is_guest.checked=Boolean(member.is_guest);
@@ -69,7 +69,7 @@ async function saveMember(event) {
   const payload={
     name:String(values.get('name')||'').trim(),
     nickname:String(values.get('nickname')||'').trim()||null,
-    league:Number(values.get('league')),
+    grade:String(values.get('grade')||'초심'),
     joined_at:String(values.get('joined_at')||today()),
     is_guest:form.elements.is_guest.checked,
   };

@@ -4,7 +4,7 @@ import { copyToClipboard, escapeHtml, formatPercent, today } from '../util.js';
 
 const $ = (selector) => document.querySelector(selector);
 const safe = escapeHtml;
-const league = () => localStorage.getItem('currentLeague') || 'all';
+const grade = () => localStorage.getItem('currentGrade') || 'all';
 const seasonId = () => localStorage.getItem('currentSeason') || 'all';
 const rank = (index) => index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : String(index + 1);
 let lastStats;
@@ -83,11 +83,11 @@ function copyText(stats) {
 
 async function render() {
   try {
-    const full=await loadAll();const data=filterBy({league:league(),seasonId:seasonId()},full);
+    const full=await loadAll();const data=filterBy({grade:grade(),seasonId:seasonId()},full);
     lastStats=dashboardStats(data);renderSeasonBanner(data);renderSummary(lastStats);renderHighlights(data,lastStats);renderRankings(data,lastStats);
   } catch(error) { window.showToast?.(error.message||'데이터를 불러오지 못했습니다.','danger'); }
 }
 
 $('#copy-highlights').addEventListener('click',async()=>{try{await copyToClipboard(copyText(lastStats||{today_highlights:null}));window.showToast?.('하이라이트를 복사했습니다.','success');}catch{window.showToast?.('복사하지 못했습니다.','danger');}});
-window.addEventListener('leagueChanged',render);window.addEventListener('seasonChanged',render);
+window.addEventListener('gradeChanged',render);window.addEventListener('seasonChanged',render);
 subscribeStatsChanged(render);render();

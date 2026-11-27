@@ -7,8 +7,8 @@ declare
 begin
  if exists(select 1 from public.members) then raise notice 'Seed skipped: members already exist.'; return; end if;
  for i in 1..array_length(names,1) loop
-  insert into public.members(name,nickname,league,joined_at,is_guest,is_admin)
-  values(names[i],case when i in (2,5,9,13,18) then '콕'||i else null end,case when i>12 then 2 else 1 end,current_date - (220-(i*4)),i in (23,24),i=1)
+  insert into public.members(name,nickname,grade,joined_at,is_guest,is_admin)
+  values(names[i],case when i in (2,5,9,13,18) then '콕'||i else null end,case when i<=3 then 'S조' when i<=6 then 'A조' when i<=10 then 'B조' when i<=14 then 'C조' when i<=18 then 'D조' else '초심' end,current_date - (220-(i*4)),i in (23,24),i=1)
   returning id into sid; ids:=array_append(ids,sid);
  end loop;
  insert into public.seasons(year,kind,name,start_date,end_date,is_active)
