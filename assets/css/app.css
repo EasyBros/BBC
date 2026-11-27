@@ -175,15 +175,3 @@ html.theme-dark .king-display img { filter:brightness(1.55) contrast(1.08) satur
 .grade-badge.grade-beginner { color:#c8f3d4; background:#1c3d2c; border-color:#5d9e71; font-weight:600; }
 
 .grade-image { display:inline-block; width:86px; height:40px; object-fit:contain; vertical-align:middle; }
-.grade-picker { position:relative; z-index:5; display:inline-block; min-width:100px; vertical-align:middle; }
-.grade-picker-trigger { display:flex; width:100%; min-height:42px; align-items:center; justify-content:center; padding:1px 6px; color:var(--text); background:var(--surface); border:1px solid var(--border); border-radius:9px; cursor:pointer; }
-.grade-picker-trigger:hover,.grade-picker-trigger[aria-expanded="true"] { border-color:var(--primary); background:var(--surface-hover); }
-.grade-picker-menu { position:absolute; top:calc(100% + 5px); right:0; z-index:1400; display:grid; min-width:150px; gap:4px; padding:7px; background:var(--modal); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); }
-.grade-picker-menu[hidden] { display:none; }
-.grade-picker-option { display:flex; min-height:46px; align-items:center; justify-content:center; padding:2px 8px; background:transparent; border:1px solid transparent; border-radius:8px; cursor:pointer; }
-.grade-picker-option:hover,.grade-picker-option.is-selected { background:var(--surface-hover); border-color:var(--primary); }
-.grade-picker-image { display:block; width:96px; height:44px; object-fit:contain; }
-.grade-picker-all { padding:0 12px; color:var(--text); white-space:nowrap; }
-.grade-picker-trigger:focus-visible,.grade-picker-option:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
-.modal-body .grade-picker { display:block; width:100%; margin-top:6px; }
-.notice-editor .grade-picker { margin-left:6px; }

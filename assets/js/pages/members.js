@@ -1,14 +1,13 @@
 import { callRpc, insertMember, loadAll, updateMember } from '../data.js';
 import { ensureAdmin, isAdmin, promptAdminLogin } from '../auth.js';
 import { dateWithWeekday, escapeHtml, today } from '../util.js';
-import { enhanceGradeSelect, gradeImageMarkup } from '../grade-ui.js';
+import { gradeImageMarkup } from '../grade-ui.js';
 
 const form=document.querySelector('#member-form');
 const modal=bootstrap.Modal.getOrCreateInstance(document.querySelector('#member-modal'));
 let members=[];
 let admin=false;
 const safe=escapeHtml;
-enhanceGradeSelect(form.elements.grade);
 
 
 function visibleMembers() {
@@ -43,7 +42,6 @@ function openAdd() {
   form.elements.id.value='';
   form.elements.joined_at.value=today();
   form.elements.grade.value='초심';
-  form.elements.grade.dispatchEvent(new Event('change'));
   document.querySelector('#member-modal-title').textContent='멤버 추가';
   document.querySelector('#member-submit').textContent='추가';
   document.querySelector('#member-admin-option').hidden=true;
@@ -57,7 +55,6 @@ function openEdit(id) {
   form.elements.name.value=member.name;
   form.elements.nickname.value=member.nickname||'';
   form.elements.grade.value=member.grade||'초심';
-  form.elements.grade.dispatchEvent(new Event('change'));
   form.elements.joined_at.value=member.joined_at||today();
   form.elements.is_admin.checked=Boolean(member.is_admin);
   form.elements.is_guest.checked=Boolean(member.is_guest);
