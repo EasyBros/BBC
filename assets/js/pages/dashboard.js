@@ -64,7 +64,7 @@ function renderRankings(data, stats) {
     card('복식 조 승률 TOP 5','👥','stats.html?tab=pairs',pairRows,'보정승률 기준'),
     card('출석률 TOP 5','📅','stats.html?tab=attendance',attendanceRows,'경기 참가일 ÷ 평일 수'),
     card('어깨 깡패 TOP 5','🥇','stats.html?tab=winner',winnerRows,'하루 최고 보정승률에 오른 횟수'),
-    card('Magic Eraser TOP 5','🧹','stats.html?tab=eraser',eraserRows,'하루 최고 보정승률에 오른 횟수'),
+    card('Magic Eraser TOP 5','🧹','stats.html?tab=eraser',eraserRows,'하루 최저 보정승률에 오른 횟수'),
     card('최근 모임','🏸','games.html',recentRows,'최근 기록'),
   ].join('');
 }
