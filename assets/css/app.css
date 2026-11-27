@@ -171,13 +171,19 @@ html.theme-dark .king-display img { filter:brightness(1.55) contrast(1.08) satur
 .season-marquee .teaser-mask { max-width:100%; }
 
 /* Skill grade medals: S is the most prominent, then A, B, C, D and beginner. */
-.grade-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px 4px 5px; border:1px solid transparent; border-radius:999px; font-size:12px; letter-spacing:.01em; white-space:nowrap; }
-.grade-badge svg { width:27px; height:27px; flex:0 0 27px; }
-.grade-badge svg text { font:800 14px system-ui,sans-serif; }
-.grade-badge.grade-s { color:#ffe7a0; background:linear-gradient(110deg,#664800,#3d2c0e); border-color:#ffda72; box-shadow:0 0 18px #fbbf2477, inset 0 0 8px #ffe9a344; font-weight:900; }
-.grade-badge.grade-s svg { filter:drop-shadow(0 0 5px #ffd65a); }
-.grade-badge.grade-a { color:#e2c8ff; background:#382253; border-color:#a977e8; box-shadow:0 0 10px #a977e844; font-weight:800; }
-.grade-badge.grade-b { color:#c2e5ff; background:#173c58; border-color:#4c9fd1; font-weight:800; }
-.grade-badge.grade-c { color:#b9f4e9; background:#17463f; border-color:#45b6a1; font-weight:700; }
 .grade-badge.grade-d { color:#ffd1b3; background:#4b3023; border-color:#bb7851; font-weight:700; }
 .grade-badge.grade-beginner { color:#c8f3d4; background:#1c3d2c; border-color:#5d9e71; font-weight:600; }
+
+.grade-image { display:inline-block; width:86px; height:40px; object-fit:contain; vertical-align:middle; }
+.grade-picker { position:relative; z-index:5; display:inline-block; min-width:100px; vertical-align:middle; }
+.grade-picker-trigger { display:flex; width:100%; min-height:42px; align-items:center; justify-content:center; padding:1px 6px; color:var(--text); background:var(--surface); border:1px solid var(--border); border-radius:9px; cursor:pointer; }
+.grade-picker-trigger:hover,.grade-picker-trigger[aria-expanded="true"] { border-color:var(--primary); background:var(--surface-hover); }
+.grade-picker-menu { position:absolute; top:calc(100% + 5px); right:0; z-index:1400; display:grid; min-width:150px; gap:4px; padding:7px; background:var(--modal); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); }
+.grade-picker-menu[hidden] { display:none; }
+.grade-picker-option { display:flex; min-height:46px; align-items:center; justify-content:center; padding:2px 8px; background:transparent; border:1px solid transparent; border-radius:8px; cursor:pointer; }
+.grade-picker-option:hover,.grade-picker-option.is-selected { background:var(--surface-hover); border-color:var(--primary); }
+.grade-picker-image { display:block; width:96px; height:44px; object-fit:contain; }
+.grade-picker-all { padding:0 12px; color:var(--text); white-space:nowrap; }
+.grade-picker-trigger:focus-visible,.grade-picker-option:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+.modal-body .grade-picker { display:block; width:100%; margin-top:6px; }
+.notice-editor .grade-picker { margin-left:6px; }

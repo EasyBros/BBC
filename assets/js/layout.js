@@ -3,6 +3,7 @@ import { getSession, isAdmin, mountLoginOverlay, onAuthChanged, signOut } from '
 import { fetchAll, filterBy, loadAll, markStatsChanged } from './data.js';
 import { dashboardStats, periodHighlight } from './stats.js';
 import { dateWithWeekday, escapeHtml, today } from './util.js';
+import { enhanceGradeSelect } from './grade-ui.js';
 
 const links = [
   ['dashboard','speedometer2','대시보드','index.html'],['members','people','멤버','members.html'],
@@ -53,6 +54,8 @@ async function fillSelectors({admin=false}={}) {
   const gradeSelect=document.querySelector('.grade-select');
   localStorage.removeItem('currentLeague');let storedGrade=localStorage.getItem('currentGrade')||'all';if(![...gradeSelect.options].some((option)=>option.value===storedGrade))storedGrade='all';gradeSelect.value=storedGrade;
   localStorage.setItem('currentGrade',storedGrade);
+  enhanceGradeSelect(gradeSelect);
+  gradeSelect.dispatchEvent(new Event('change'));
   gradeSelect.onchange=()=>{localStorage.setItem('currentGrade',gradeSelect.value);window.dispatchEvent(new CustomEvent('gradeChanged',{detail:{grade:gradeSelect.value}}));};
   const seasons=[...data.seasons].sort((a,b)=>b.start_date.localeCompare(a.start_date));
   const seasonSelect=document.querySelector('.season-select');

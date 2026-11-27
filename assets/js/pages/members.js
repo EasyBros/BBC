@@ -1,21 +1,15 @@
 import { callRpc, insertMember, loadAll, updateMember } from '../data.js';
 import { ensureAdmin, isAdmin, promptAdminLogin } from '../auth.js';
 import { dateWithWeekday, escapeHtml, today } from '../util.js';
+import { enhanceGradeSelect, gradeImageMarkup } from '../grade-ui.js';
 
 const form=document.querySelector('#member-form');
 const modal=bootstrap.Modal.getOrCreateInstance(document.querySelector('#member-modal'));
 let members=[];
 let admin=false;
 const safe=escapeHtml;
-const gradeMeta={
- 'S조':{className:'grade-s',mark:'S',icon:'👑'},
- 'A조':{className:'grade-a',mark:'A',icon:'💎'},
- 'B조':{className:'grade-b',mark:'B',icon:'🥇'},
- 'C조':{className:'grade-c',mark:'C',icon:'🥈'},
- 'D조':{className:'grade-d',mark:'D',icon:'🥉'},
- '초심':{className:'grade-beginner',mark:'초',icon:'🌱'},
-};
-function gradeBadge(value){const grade=gradeMeta[value]||gradeMeta['초심'];return `<span class="grade-badge ${grade.className}"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="currentColor" fill-opacity=".16"/><text x="16" y="21" text-anchor="middle" fill="currentColor">${grade.mark}</text></svg><strong>${safe(value||'초심')}</strong></span>`;}
+enhanceGradeSelect(form.elements.grade);
+
 
 function visibleMembers() {
   const query=document.querySelector('#member-search').value.trim().toLocaleLowerCase('ko');
@@ -27,7 +21,7 @@ function draw() {
   document.querySelector('#member-count').textContent=`멤버 ${members.filter((member)=>member.is_active!==false).length}명`;
   document.querySelector('#member-rows').innerHTML=rows.length?rows.map((member)=>`<tr>
     <td><strong>${safe(member.name)}</strong>${member.is_admin?' 👑':''}${member.is_guest?' <span class="badge-muted">게스트</span>':''}</td>
-    <td>${safe(member.nickname||'—')}</td><td>${gradeBadge(member.grade||'초심')}</td>
+    <td>${safe(member.nickname||'—')}</td><td>${gradeImageMarkup(member.grade||'초심')}</td>
     <td>${safe(dateWithWeekday(member.joined_at))}</td><td><div class="member-actions">
       <button class="btn btn-sm btn-outline-secondary" data-edit="${safe(member.id)}" type="button">수정</button>
       ${admin?`<button class="btn btn-sm btn-outline-danger" data-deactivate="${safe(member.id)}" type="button">삭제</button>`:''}
@@ -49,6 +43,7 @@ function openAdd() {
   form.elements.id.value='';
   form.elements.joined_at.value=today();
   form.elements.grade.value='초심';
+  form.elements.grade.dispatchEvent(new Event('change'));
   document.querySelector('#member-modal-title').textContent='멤버 추가';
   document.querySelector('#member-submit').textContent='추가';
   document.querySelector('#member-admin-option').hidden=true;
@@ -62,6 +57,7 @@ function openEdit(id) {
   form.elements.name.value=member.name;
   form.elements.nickname.value=member.nickname||'';
   form.elements.grade.value=member.grade||'초심';
+  form.elements.grade.dispatchEvent(new Event('change'));
   form.elements.joined_at.value=member.joined_at||today();
   form.elements.is_admin.checked=Boolean(member.is_admin);
   form.elements.is_guest.checked=Boolean(member.is_guest);

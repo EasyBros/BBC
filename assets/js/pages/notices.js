@@ -1,10 +1,12 @@
 import { ensureAdmin, isAdmin, promptAdminLogin } from '../auth.js';
 import { getSupabase } from '../supabase.js';
 import { escapeHtml } from '../util.js';
+import { enhanceGradeSelect } from '../grade-ui.js';
 
 const host=document.querySelector('#notices-placeholder');const safe=escapeHtml;let notices=[];let admin=false;let editing=null;
 function plain(html){const node=document.createElement('div');node.innerHTML=window.DOMPurify?window.DOMPurify.sanitize(html,{ALLOWED_TAGS:[]}):safe(html);return node.textContent||'';}
 function draw(){const grade=localStorage.getItem('currentGrade')||'all';const shown=notices.filter((row)=>row.grade==null||grade==='all'||row.grade===grade).sort((a,b)=>Number(b.is_pinned)-Number(a.is_pinned)||b.created_at.localeCompare(a.created_at));host.innerHTML=`<div class="notices-head"><p>${shown.length}개의 공지사항</p><button class="btn btn-outline-secondary" id="notice-admin">⚙ 관리자 인증</button></div>${admin?editor():''}<div class="notice-list">${shown.length?shown.map((row)=>`<article class="notice-card"><div class="notice-card-meta">${row.is_pinned?'📌 고정':''} ${row.is_popup?'🔔 팝업':''}</div><h2><a href="notice.html?id=${encodeURIComponent(row.id)}">${safe(row.title)}</a></h2><p>${safe(plain(row.content).slice(0,150))}</p><footer>${safe(new Date(row.created_at).toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'}))} · ${safe(row.author||'BBC')}</footer>${admin?`<div class="notice-edit-actions"><button class="btn btn-sm btn-outline-secondary" data-edit="${safe(row.id)}">수정</button><button class="btn btn-sm btn-outline-danger" data-delete="${safe(row.id)}">삭제</button></div>`:''}</article>`).join(''):'<div class="card empty-state">등록된 공지사항이 없습니다.</div>'}</div>`;
+ enhanceGradeSelect(host.querySelector('select[name=grade]'));
  host.querySelector('#notice-admin').addEventListener('click',async()=>{if(admin){admin=false;draw();return;}const ok=await promptAdminLogin();if(ok){admin=await isAdmin(true);draw();}});
  host.querySelectorAll('[data-edit]').forEach((button)=>button.addEventListener('click',()=>{editing=notices.find((row)=>String(row.id)===button.dataset.edit);draw();}));
  host.querySelectorAll('[data-delete]').forEach((button)=>button.addEventListener('click',()=>deleteNotice(button.dataset.delete)));
